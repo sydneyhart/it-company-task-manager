@@ -1,9 +1,13 @@
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "development-only-taskline-key")
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
+if not DEBUG and "DJANGO_SECRET_KEY" not in os.environ:
+    raise ImproperlyConfigured("Set DJANGO_SECRET_KEY when DEBUG is disabled.")
 ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]"
 ).split(",")

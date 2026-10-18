@@ -59,3 +59,14 @@ class TaskFilterForm(forms.Form):
         queryset=Tag.objects.all(), required=False, empty_label="All tags"
     )
     mine = forms.BooleanField(required=False, label="Assigned to me")
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            if isinstance(field.widget, forms.CheckboxInput):
+                field.widget.attrs["class"] = "form-check-input"
+            elif isinstance(field.widget, forms.Select):
+                field.widget.attrs["class"] = "form-select"
+            else:
+                field.widget.attrs["class"] = "form-control"
