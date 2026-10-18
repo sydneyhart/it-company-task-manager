@@ -1,0 +1,4 @@
+Django>=5.2,<5.3
+django-crispy-forms>=2.4,<3
+crispy-bootstrap5>=2025.6,<2027
+gunicorn>=23,<24
