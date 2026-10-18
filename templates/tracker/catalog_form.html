@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <a class="back-link" href="{{ cancel_url }}">← Back to {{ catalog_title|lower }}</a>
+  <div class="page-head"><div><p class="eyebrow">ORGANIZE YOUR WORKSPACE</p><h1>{% if object %}Edit{% else %}Add{% endif %} {{ singular }}</h1><p>Use a clear name your whole team will recognize.</p></div></div>
+  <div class="panel panel-pad form-panel"><form method="post">{% csrf_token %}{{ form|crispy }}<div class="form-actions"><button class="btn btn-primary" type="submit">Save {{ singular }}</button><a class="btn btn-outline-secondary" href="{{ cancel_url }}">Cancel</a></div></form></div>
+{% endblock %}
