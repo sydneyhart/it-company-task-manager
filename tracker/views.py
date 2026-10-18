@@ -248,6 +248,7 @@ class CatalogDeleteView(LoginRequiredMixin, CatalogMixin, generic.DeleteView):
         except ProtectedError:
             messages.error(
                 self.request,
-                "This item is in use. Reassign its workers or tasks before deleting it.",
+                "This item is in use. Reassign its workers or tasks "
+                "before deleting it.",
             )
             return self.render_to_response(self.get_context_data(form=form))
