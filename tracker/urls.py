@@ -15,12 +15,28 @@ urlpatterns = [
     path("people/", views.WorkerListView.as_view(), name="worker-list"),
     path("people/new/", views.WorkerCreateView.as_view(), name="worker-create"),
     path("people/<int:pk>/", views.WorkerDetailView.as_view(), name="worker-detail"),
-    path("people/<int:pk>/edit/", views.WorkerUpdateView.as_view(), name="worker-update"),
-    path("people/<int:pk>/delete/", views.WorkerDeleteView.as_view(), name="worker-delete"),
+    path(
+        "people/<int:pk>/edit/", views.WorkerUpdateView.as_view(), name="worker-update"
+    ),
+    path(
+        "people/<int:pk>/delete/",
+        views.WorkerDeleteView.as_view(),
+        name="worker-delete",
+    ),
     path("settings/<str:kind>/", views.CatalogListView.as_view(), name="catalog-list"),
-    path("settings/<str:kind>/new/", views.CatalogCreateView.as_view(), name="catalog-create"),
-    path("settings/<str:kind>/<int:pk>/edit/", views.CatalogUpdateView.as_view(),
-         name="catalog-update"),
-    path("settings/<str:kind>/<int:pk>/delete/", views.CatalogDeleteView.as_view(),
-         name="catalog-delete"),
+    path(
+        "settings/<str:kind>/new/",
+        views.CatalogCreateView.as_view(),
+        name="catalog-create",
+    ),
+    path(
+        "settings/<str:kind>/<int:pk>/edit/",
+        views.CatalogUpdateView.as_view(),
+        name="catalog-update",
+    ),
+    path(
+        "settings/<str:kind>/<int:pk>/delete/",
+        views.CatalogDeleteView.as_view(),
+        name="catalog-delete",
+    ),
 ]

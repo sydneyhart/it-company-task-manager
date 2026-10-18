@@ -11,7 +11,10 @@ class WorkerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = UserCreationForm.Meta.fields + (
-            "first_name", "last_name", "email", "position",
+            "first_name",
+            "last_name",
+            "email",
+            "position",
         )
 
 
@@ -27,8 +30,14 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = (
-            "name", "description", "deadline", "priority",
-            "task_type", "assignees", "tags", "is_completed",
+            "name",
+            "description",
+            "deadline",
+            "priority",
+            "task_type",
+            "assignees",
+            "tags",
+            "is_completed",
         )
         widgets = {
             "description": forms.Textarea(attrs={"rows": 4}),
@@ -40,12 +49,16 @@ class TaskForm(forms.ModelForm):
 
 class TaskFilterForm(forms.Form):
     q = forms.CharField(
-        required=False, label="Search tasks",
+        required=False,
+        label="Search tasks",
         widget=forms.TextInput(attrs={"placeholder": "Name or description"}),
     )
     status = forms.ChoiceField(
-        required=False, choices=(
-            ("", "All statuses"), ("active", "Active"), ("done", "Completed"),
+        required=False,
+        choices=(
+            ("", "All statuses"),
+            ("active", "Active"),
+            ("done", "Completed"),
         ),
     )
     priority = forms.ChoiceField(
@@ -59,7 +72,6 @@ class TaskFilterForm(forms.Form):
         queryset=Tag.objects.all(), required=False, empty_label="All tags"
     )
     mine = forms.BooleanField(required=False, label="Assigned to me")
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

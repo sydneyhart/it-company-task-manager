@@ -21,15 +21,19 @@ def dashboard(request):
     active = tasks.filter(is_completed=False)
     total = tasks.count()
     completed = tasks.filter(is_completed=True).count()
-    return render(request, "tracker/dashboard.html", {
-        "active_count": active.count(),
-        "completed_count": completed,
-        "overdue_count": active.filter(deadline__lt=timezone.localdate()).count(),
-        "worker_count": get_user_model().objects.count(),
-        "completion_percent": round(completed * 100 / total) if total else 0,
-        "upcoming_tasks": active.order_by("deadline", "pk")[:5],
-        "my_tasks": active.filter(assignees=request.user)[:4],
-    })
+    return render(
+        request,
+        "tracker/dashboard.html",
+        {
+            "active_count": active.count(),
+            "completed_count": completed,
+            "overdue_count": active.filter(deadline__lt=timezone.localdate()).count(),
+            "worker_count": get_user_model().objects.count(),
+            "completion_percent": round(completed * 100 / total) if total else 0,
+            "upcoming_tasks": active.order_by("deadline", "pk")[:5],
+            "my_tasks": active.filter(assignees=request.user)[:4],
+        },
+    )
 
 
 class QueryContextMixin:
@@ -135,15 +139,22 @@ class WorkerListView(LoginRequiredMixin, QueryContextMixin, generic.ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        queryset = get_user_model().objects.select_related("position").annotate(
-            active_count=Count("tasks", filter=Q(tasks__is_completed=False)),
-            done_count=Count("tasks", filter=Q(tasks__is_completed=True)),
+        queryset = (
+            get_user_model()
+            .objects.select_related("position")
+            .annotate(
+                active_count=Count("tasks", filter=Q(tasks__is_completed=False)),
+                done_count=Count("tasks", filter=Q(tasks__is_completed=True)),
+            )
+            .order_by("username")
         )
         query = self.request.GET.get("q", "").strip()
         if query:
             queryset = queryset.filter(
-                Q(username__icontains=query) | Q(first_name__icontains=query)
-                | Q(last_name__icontains=query) | Q(email__icontains=query)
+                Q(username__icontains=query)
+                | Q(first_name__icontains=query)
+                | Q(last_name__icontains=query)
+                | Q(email__icontains=query)
             )
         return queryset
 
@@ -195,8 +206,10 @@ class CatalogMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            kind=self.kind, catalog_title=self.catalog_title,
-            singular=self.singular, cancel_url=self.get_success_url(),
+            kind=self.kind,
+            catalog_title=self.catalog_title,
+            singular=self.singular,
+            cancel_url=self.get_success_url(),
         )
         return context
 
