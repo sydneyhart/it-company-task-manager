@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="page-head"><div><p class="eyebrow">THE BIG PICTURE</p><h1>Your team's next chapter.</h1><p>A little clarity goes a long way. Here's where things stand.</p></div><a class="btn btn-primary" href="{% url 'tracker:task-create' %}">＋ New task</a></div>
+  <section class="hero"><div><p class="eyebrow">WELCOME BACK, {{ user.get_short_name|default:user.username|upper }}</p><h2>Turn today's priorities<br>into tomorrow's progress.</h2><p>Keep the important work in focus. Give every task a clear owner and a next step.</p></div><div class="hero-art" aria-hidden="true"><div class="ring"></div><span class="check">✓</span></div></section>
+  <div class="stats">
+    <div class="panel stat"><span class="label">Active tasks</span><span class="stat-icon">☷</span><div class="number">{{ active_count|stringformat:"02d" }}</div><div class="stat-note">Work moving forward</div></div>
+    <div class="panel stat"><span class="label">Completed</span><span class="stat-icon">✓</span><div class="number">{{ completed_count|stringformat:"02d" }}</div><div class="stat-note">A job well done</div></div>
+    <div class="panel stat warning"><span class="label">Overdue</span><span class="stat-icon">◷</span><div class="number">{{ overdue_count|stringformat:"02d" }}</div><div class="stat-note">Needs a little attention</div></div>
+    <div class="panel stat"><span class="label">Team members</span><span class="stat-icon">♧</span><div class="number">{{ worker_count|stringformat:"02d" }}</div><div class="stat-note">Better together</div></div>
+  </div>
+  <div class="dashboard-grid">
+    <section class="panel"><div class="panel-head"><h2>Coming up next</h2><a href="{% url 'tracker:task-list' %}?status=active">View all tasks →</a></div>{% include "tracker/includes/task_rows.html" with tasks=upcoming_tasks %}</section>
+    <div><section class="panel"><div class="panel-head"><h2>On your plate</h2><a href="{% url 'tracker:task-list' %}?mine=on&amp;status=active">View mine →</a></div>{% include "tracker/includes/task_rows.html" with tasks=my_tasks %}</section><section class="panel panel-pad"><p class="section-label">TEAM MOMENTUM</p><h2>{{ completion_percent }}% of the way there.</h2><div class="progress-track"><div class="progress-fill" style="width:{{ completion_percent }}%"></div></div><div class="progress-caption"><span>Completed tasks</span><span>{{ completed_count }} done</span></div></section></div>
+  </div>
+{% endblock %}
