@@ -30,7 +30,7 @@
       </div>
     </aside>
     <div class="app-shell">
-      <header class="topbar"><div><span class="topbar-label">YOUR WORKSPACE</span><strong>IT Company Task Manager</strong></div><span class="live-label"><i></i> Let's make progress</span></header>
+      <header class="topbar"><div><span class="topbar-label">YOUR WORKSPACE</span><strong>IT Company Task Manager</strong></div><span class="live-label"><i></i> Let's make progress</span><div class="mobile-account"><a href="{{ user.get_absolute_url }}">{{ user.get_short_name|default:user.username }}</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" aria-label="Log out">↪</button></form></div></header>
       <main id="main-content">
         {% for message in messages %}<div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="status">{{ message }}</div>{% endfor %}
         {% block content %}{% endblock %}
