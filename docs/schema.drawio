@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Taskline data model" id="taskline">
+    <mxGraphModel dx="1490" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1490" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="TASKLINE / DATABASE STRUCTURE" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontColor=#172838;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="30" width="1200" height="50" />
+        </mxCell>
+        <mxCell id="subtitle" value="IT Company Task Manager · Django · Optional task tags included" style="text;html=1;align=left;fontSize=15;fontColor=#73818e;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="90" width="1200" height="30" />
+        </mxCell>
+        <mxCell id="position" value="Position" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="220" width="240" height="120" />
+        </mxCell>
+        <mxCell id="position_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;name: varchar(100), unique" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="position">
+          <mxGeometry as="geometry" x="0" y="38" width="240" height="82" />
+        </mxCell>
+        <mxCell id="worker" value="Worker (AbstractUser)" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="200" width="310" height="300" />
+        </mxCell>
+        <mxCell id="worker_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; position_id → Position&lt;br&gt;username: varchar(150), unique&lt;br&gt;first_name, last_name: varchar(150)&lt;br&gt;email: varchar(254)&lt;br&gt;password: hashed varchar(128)&lt;br&gt;is_active / is_staff / is_superuser&lt;br&gt;date_joined, last_login&lt;br&gt;+ Django auth groups / permissions" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="worker">
+          <mxGeometry as="geometry" x="0" y="38" width="310" height="262" />
+        </mxCell>
+        <mxCell id="task" value="Task" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="810" y="180" width="320" height="320" />
+        </mxCell>
+        <mxCell id="task_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; task_type_id → TaskType&lt;br&gt;name: varchar(200)&lt;br&gt;description: text&lt;br&gt;deadline: date&lt;br&gt;is_completed: boolean&lt;br&gt;priority: urgent / high / medium / low&lt;br&gt;created_at: datetime&lt;br&gt;assignees: M:N → Worker&lt;br&gt;tags: M:N → Tag" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="task">
+          <mxGeometry as="geometry" x="0" y="38" width="320" height="282" />
+        </mxCell>
+        <mxCell id="type" value="TaskType" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="210" width="230" height="120" />
+        </mxCell>
+        <mxCell id="type_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;name: varchar(100), unique" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="type">
+          <mxGeometry as="geometry" x="0" y="38" width="230" height="82" />
+        </mxCell>
+        <mxCell id="tag" value="Tag (optional)" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="520" width="230" height="120" />
+        </mxCell>
+        <mxCell id="tag_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;name: varchar(100), unique" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="tag">
+          <mxGeometry as="geometry" x="0" y="38" width="230" height="82" />
+        </mxCell>
+        <mxCell id="assignments" value="Task_assignees (Django join)" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="420" y="620" width="290" height="170" />
+        </mxCell>
+        <mxCell id="assignments_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; task_id → Task&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; worker_id → Worker&lt;br&gt;unique(task_id, worker_id)" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="assignments">
+          <mxGeometry as="geometry" x="0" y="38" width="290" height="132" />
+        </mxCell>
+        <mxCell id="tags" value="Task_tags (Django join)" style="swimlane;html=1;startSize=38;horizontal=1;rounded=1;arcSize=8;fillColor=#172e3e;swimlaneFillColor=#ffffff;strokeColor=#d7e0e7;fontColor=#ffffff;fontSize=17;fontStyle=1;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="810" y="650" width="290" height="170" />
+        </mxCell>
+        <mxCell id="tags_fields" value="&lt;b&gt;PK&lt;/b&gt; id: bigint&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; task_id → Task&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; tag_id → Tag&lt;br&gt;unique(task_id, tag_id)" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;spacingTop=13;spacingLeft=14;fontColor=#425b6d;fontSize=14;" vertex="1" parent="tags">
+          <mxGeometry as="geometry" x="0" y="38" width="290" height="132" />
+        </mxCell>
+        <mxCell id="e1" value="1 : N · PROTECT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="position" target="worker">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e2" value="1 : N · PROTECT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.2;" edge="1" parent="1" source="type" target="task">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e3" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="worker" target="assignments">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e4" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;exitX=0;exitY=0.85;entryX=1;entryY=0.4;" edge="1" parent="1" source="task" target="assignments">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e5" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="task" target="tags">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e6" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmany;startArrow=ERone;strokeColor=#7993a1;strokeWidth=2;fontSize=12;fontColor=#6b8291;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="tag" target="tags">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="note" value="Deletion rules: used Positions and TaskTypes are protected. Removing a Worker or Tag removes join rows; Tasks remain." style="text;html=1;align=left;fontSize=13;fontColor=#73818e;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="850" width="1360" height="30" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
