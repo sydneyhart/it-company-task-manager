@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <a class="back-link" href="{{ cancel_url }}">← Back to {{ catalog_title|lower }}</a>
+  <div class="page-head"><div><p class="eyebrow">A FINAL CHECK</p><h1>Delete {{ singular }}?</h1><p>Keep the workspace tidy without losing important work.</p></div></div>
+  <div class="panel panel-pad form-panel"><h2>{{ object.name }}</h2><div class="danger-note">{% if kind == 'tags' %}The tag will be removed from all tasks. The tasks themselves stay in the workspace.{% else %}Items that are still used by workers or tasks cannot be deleted. Reassign those records first.{% endif %}</div><form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete {{ singular }}</button> <a class="btn btn-outline-secondary" href="{{ cancel_url }}">Cancel</a></form></div>
+{% endblock %}
