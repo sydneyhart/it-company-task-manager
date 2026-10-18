@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <a class="back-link" href="{{ object.get_absolute_url }}">← Back to profile</a>
+  <div class="page-head"><div><p class="eyebrow">TEAM CHANGES</p><h1>Remove this person?</h1><p>Review their active tasks before you continue.</p></div></div>
+  <div class="panel panel-pad form-panel"><h2>{{ object }}</h2><div class="danger-note">Their account and task assignments will be removed. Tasks stay in the workspace so you can reassign them. This cannot be undone.</div><form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Remove person</button> <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Cancel</a></form></div>
+{% endblock %}
