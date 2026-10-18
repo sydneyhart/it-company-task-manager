@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <a class="back-link" href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'tracker:task-list' %}{% endif %}">← Back to tasks</a>
+  <div class="page-head"><div><p class="eyebrow">MAKE THE NEXT STEP CLEAR</p><h1>{% if object %}Edit task{% else %}Create a task{% endif %}</h1><p>A good brief helps everyone do their best work.</p></div></div>
+  <div class="panel panel-pad form-panel"><form method="post">{% csrf_token %}{{ form|crispy }}<div class="form-actions"><button class="btn btn-primary" type="submit">Save task</button><a class="btn btn-outline-secondary" href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'tracker:task-list' %}{% endif %}">Cancel</a></div></form></div>
+{% endblock %}
