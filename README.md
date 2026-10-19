@@ -3,6 +3,11 @@
 A Django portfolio project for an IT team's day-to-day work: clear priorities,
 shared ownership, and a useful view of what's next.
 
+[Live demo](https://taskline-it-company.onrender.com/) ·
+[Portfolio pull request](https://github.com/sydneyhart/it-company-task-manager/pull/1)
+
+Visitor login: **user** / **user12345**.
+
 ## Features
 
 - Overview dashboard with active, completed, overdue, and team counts.
