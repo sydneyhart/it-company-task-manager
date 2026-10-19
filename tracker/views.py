@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -183,6 +185,18 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = get_user_model()
     success_url = reverse_lazy("tracker:worker-list")
+
+    def form_valid(self, form):
+        demo_username = os.environ.get("TASKLINE_DEMO_USERNAME", "user")
+        if (
+            os.environ.get("TASKLINE_PUBLIC_DEMO") == "1"
+            and self.object.username == demo_username
+        ):
+            messages.error(
+                self.request, "The shared visitor account cannot be removed."
+            )
+            return self.render_to_response(self.get_context_data(form=form))
+        return super().form_valid(form)
 
 
 CATALOGS = {

@@ -58,8 +58,10 @@ seed_demo or the app, then run:
 
 Enter an existing position's primary key when prompted.
 
-Do not seed demo data on a public production deployment. The sample credentials
-above are intentionally public and are only for local evaluation.
+For the public portfolio demo, the Render build seeds a separate visitor account:
+username `user`, password `user12345`. This account has no admin privileges and
+cannot be deleted while public demo mode is enabled. All shared records are demo
+data and visitors can edit them; do not enter private information.
 
 ## Checks
 
@@ -68,7 +70,7 @@ above are intentionally public and are only for local evaluation.
     python manage.py makemigrations --check --dry-run
     python manage.py test
 
-The 26 tests cover rendered pages, authentication, task and worker workflows,
+The 32 tests cover rendered pages, authentication, task and worker workflows,
 password hashing, protection against privilege escalation in profile forms,
 CSRF-protected POST actions, filter combinations, pagination encoding,
 protected deletion, escaping, and repeatable demo seeding.
@@ -91,33 +93,42 @@ and includes the optional Tag model and Django's two many-to-many join tables.
 
 ## Configuration and deployment
 
-Defaults are for local development with SQLite. The database, virtual environment,
-and secrets are excluded from Git.
+Local development uses SQLite. Render uses managed PostgreSQL, Gunicorn, and
+WhiteNoise for compressed static files. Secrets and database files are excluded
+from Git. The application refuses to start on Render without DATABASE_URL, or
+with debug disabled without DJANGO_SECRET_KEY.
+
+The root `render.yaml` deploys the `develop` branch with free web and PostgreSQL
+plans in Oregon. Create a Blueprint from this repository in Render, select
+`develop`, and review the resource plan before deploying. The existing
+`taskline-db` database is matched by name. The Blueprint supplies DATABASE_URL
+through a database reference and generates the signing secret inside Render.
+No database password is stored in this repository.
+
+The executable build.sh installs dependencies, collects static files, applies
+migrations, and idempotently creates the visitor data when public demo mode is
+set. `/healthz/` checks database connectivity without requiring a login.
 
 | Environment variable | Purpose | Default |
 | --- | --- | --- |
-| DJANGO_SECRET_KEY | Secret signing key | Development-only fallback |
-| DJANGO_DEBUG | 1 for development, 0 for production | 1 |
-| DJANGO_ALLOWED_HOSTS | Comma-separated hosts | localhost, 127.0.0.1, [::1] |
+| DATABASE_URL | PostgreSQL connection URL | SQLite locally; required on Render |
+| DJANGO_SECRET_KEY | Secret signing key | Development fallback; required in production |
+| DJANGO_DEBUG | 1 for development, 0 for production | 0 on Render, otherwise 1 |
+| DJANGO_ALLOWED_HOSTS | Comma-separated additional hosts | Local hosts plus Render hostname |
+| DJANGO_CSRF_TRUSTED_ORIGINS | Comma-separated additional HTTPS origins | Render origin |
 | DJANGO_TIME_ZONE | Workspace IANA timezone | UTC |
+| TASKLINE_PUBLIC_DEMO | Seed visitor data and protect its account from deletion | 0 |
+| TASKLINE_DEMO_USERNAME | Visitor username | user |
+| TASKLINE_DEMO_PASSWORD | Initial visitor password | user12345 |
 
-For deployment, provide a unique secret, set DJANGO_DEBUG=0, configure real hosts,
-and run migrations and:
+HTTPS redirects, secure cookies, proxy SSL handling, and HSTS are enabled with
+debug disabled. Use a unique secret and configure real hosts for other hosts.
+Run `python manage.py check --deploy` with the production environment configured.
 
-    python manage.py collectstatic --noinput
-
-The app refuses to start with debug disabled unless a secret is supplied.
-Run the WSGI application with:
-
-    gunicorn config.wsgi:application
-
-Serve staticfiles/ with your web server and put the application behind an HTTPS
-reverse proxy. Configure secure cookies and other deployment settings for that
-environment, and run:
-
-    python manage.py check --deploy
-
-The project does not include hosting or a live deployment.
+Free Render web services sleep after inactivity, so the first visit may take
+about a minute. The free PostgreSQL database expires after 30 days (the current
+instance expires November 17, 2026). Upgrade or migrate before expiry to keep the
+demo available; the Blueprint does not authorize any paid upgrade.
 
 Bootstrap loads from jsDelivr, and the DM Sans/Manrope fonts load from Google
 Fonts. The interface falls back to system fonts if those resources are unavailable.
