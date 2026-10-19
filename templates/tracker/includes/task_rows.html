@@ -1,0 +1,8 @@
+{% for task in tasks %}
+  <a class="task-row" href="{{ task.get_absolute_url }}">
+    <div><span class="status-dot {% if task.is_completed %}done{% endif %}"></span><span class="task-title">{{ task.name }}</span><div class="task-sub">{{ task.task_type }} · Due {{ task.deadline|date:"M j" }}{% if task.is_overdue %} · <span class="overdue">Overdue</span>{% endif %}</div></div>
+    <span class="pill priority-{{ task.priority }}">{{ task.get_priority_display }}</span>
+  </a>
+{% empty %}
+  <div class="empty"><span class="empty-mark">✓</span><h3>You're all caught up</h3><p>No tasks in this list.</p></div>
+{% endfor %}

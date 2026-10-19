@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <a class="back-link" href="{{ object.get_absolute_url }}">← Back to task</a>
+  <div class="page-head"><div><p class="eyebrow">A FINAL CHECK</p><h1>Delete this task?</h1><p>Make sure this work is no longer needed.</p></div></div>
+  <div class="panel panel-pad form-panel"><h2>{{ object.name }}</h2><div class="danger-note">Deleting this task removes its description, assignments, and tag connections. This cannot be undone.</div><form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete task</button> <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Cancel</a></form></div>
+{% endblock %}

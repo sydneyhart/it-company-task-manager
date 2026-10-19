@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ worker }} · Taskline{% endblock %}
+{% block content %}
+  <a class="back-link" href="{% url 'tracker:worker-list' %}">← Back to people</a>
+  <div class="page-head"><div><p class="eyebrow">TEAM MEMBER</p><h1>{{ worker }}</h1><p>{{ worker.position }} <span class="mx-2">/</span> @{{ worker.username }}</p></div><a class="btn btn-outline-secondary" href="{% url 'tracker:worker-update' worker.pk %}">Edit profile</a></div>
+  <div class="detail-grid"><div><section class="panel"><div class="panel-head"><h2>Active tasks</h2><span class="muted">{{ active_tasks|length }}</span></div>{% include "tracker/includes/task_rows.html" with tasks=active_tasks %}</section><section class="panel"><div class="panel-head"><h2>Completed tasks</h2><span class="muted">{{ completed_tasks|length }}</span></div>{% include "tracker/includes/task_rows.html" with tasks=completed_tasks %}</section></div><div><section class="panel panel-pad"><span class="avatar mb-4">{{ worker.first_name|first|default:worker.username|first|upper }}</span><p class="section-label">PROFILE</p><dl class="detail-meta"><dt>Email</dt><dd>{{ worker.email|default:"—" }}</dd><dt>Position</dt><dd>{{ worker.position }}</dd><dt>Joined</dt><dd>{{ worker.date_joined|date:"M j, Y" }}</dd></dl></section><a class="small muted" href="{% url 'tracker:worker-delete' worker.pk %}">Remove this person</a></div></div>
+{% endblock %}
